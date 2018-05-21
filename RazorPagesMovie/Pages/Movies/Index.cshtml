@@ -1,4 +1,4 @@
-@page
+@page "{id:int?}/{searchString?}"
 @model RazorPagesMovie.Pages.Movies.IndexModel
 
 @{
@@ -7,48 +7,57 @@
 
 <h2>Index</h2>
 
+<form>
+    @* The hidden type is for demo purposes. To check how routing works in razor page model *@
+    <input type="hidden" name="id" value="@Model.Movies?.Count"/>
+    <select asp-for="@Model.SelectedGenre" asp-items="@Model.Genres"></select>
+    <input type="text" name="searchString" value="@Model.SearchString"/>
+    <button type="submit">Search</button>
+</form>
+
 <p>
     <a asp-page="Create">Create New</a>
 </p>
 <table class="table">
     <thead>
         <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Movie[0].Title)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Movie[0].ReleaseDate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Movie[0].Genre)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Movie[0].Price)
-                </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Movies[0].Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Movies[0].ReleaseDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Movies[0].Genre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Movies[0].Price)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Movie) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReleaseDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Genre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.Movies)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReleaseDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Genre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
