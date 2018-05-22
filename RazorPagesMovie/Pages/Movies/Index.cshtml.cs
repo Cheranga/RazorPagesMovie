@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,16 +10,15 @@ namespace RazorPagesMovie.Pages.Movies
 {
     public class IndexModel : PageModel
     {
-        
-        private readonly RazorPagesMovie.Models.MovieContext _context;
+        private readonly MovieContext _context;
 
-        public IndexModel(RazorPagesMovie.Models.MovieContext context)
+        public IndexModel(MovieContext context)
         {
             _context = context;
         }
 
         public string SearchString { get; set; }
-        public IList<Movie> Movies { get;set; }
+        public IList<Movie> Movies { get; set; }
         public SelectList Genres { get; set; }
         public string SelectedGenre { get; set; }
 
@@ -32,14 +29,15 @@ namespace RazorPagesMovie.Pages.Movies
             var genres = await GetGenres();
             var movies = await GetMovies(searchString, selectedGenre);
 
-            Genres = new SelectList(genres);
+            var selectList = genres.Select(x => new {Value = x, Display = x}).ToList();
+            selectList.Insert(0, new {Value = "", Display = "Select"});
+            Genres = new SelectList(selectList, "Value", "Display", "");
             Movies = movies;
-
         }
 
         private Task<List<string>> GetGenres()
         {
-            return _context.Movies.Select(x => x.Genre).ToListAsync();
+            return _context.Movies.Select(x => x.Genre).Distinct().ToListAsync();
         }
 
         private Task<List<Movie>> GetMovies(string search, string genre)

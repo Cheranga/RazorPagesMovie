@@ -9,9 +9,9 @@
 
 <form>
     @* The hidden type is for demo purposes. To check how routing works in razor page model *@
-    <input type="hidden" name="id" value="@Model.Movies?.Count"/>
+    <input type="hidden" name="id" value="@Model.Movies?.Count" />
     <select asp-for="@Model.SelectedGenre" asp-items="@Model.Genres"></select>
-    <input type="text" name="searchString" value="@Model.SearchString"/>
+    <input type="text" name="searchString" value="@Model.SearchString" />
     <button type="submit">Search</button>
 </form>
 
@@ -33,6 +33,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Movies[0].Price)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Movies[0].Rating)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -51,6 +54,9 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelitem => item.Rating)
                 </td>
                 <td>
                     <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |

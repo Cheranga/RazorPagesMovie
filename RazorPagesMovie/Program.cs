@@ -22,7 +22,8 @@ namespace RazorPagesMovie
                     // Migrate the database
                     MigrateDatabase<MovieContext>(serviceProvider);
 
-                    SeedData.Initialize(scope.ServiceProvider);
+                    // Seeding data is done through EF migrations. Read the 'Readme.md' file for details
+                    //SeedData.Initialize(scope.ServiceProvider);
                 }
                 catch (Exception exception)
                 {
